@@ -455,6 +455,10 @@ keypress(XKeyEvent *ev)
 		match();
 		break;
 	}
+	if (incremental) {
+		puts(text);
+		fflush(stdout);
+	}
 	drawmenu();
 }
 
@@ -637,7 +641,7 @@ static void
 usage(void)
 {
 	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
+	      "             [-nb color] [-nf color] [-r] [-sb color] [-sf color] [-w windowid]\n", stderr);
 	exit(1);
 }
 
@@ -656,6 +660,8 @@ main(int argc, char *argv[])
 			topbar = 0;
 		else if (!strcmp(argv[i], "-f"))   /* grabs keyboard before reading stdin */
 			fast = 1;
+		else if (!strcmp(argv[i], "-r"))   /* incremental */
+			incremental = 1;
 		else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
 			fstrncmp = strncasecmp;
 			fstrstr = cistrstr;
